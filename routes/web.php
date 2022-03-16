@@ -34,12 +34,14 @@ Route::get('/line/message', [LineMessengerController::class ,'message']);
 Route::get('/user',[LineMessengerController::class,'user']);
 
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/main',[TaskController::class,'index']);
+    Route::post('/add',[TaskController::class,'create']);
+    Route::post('/update',[TaskController::class,'update']);
+    Route::post('/delete',[TaskController::class,'delete']);
+    Route::post('/done',[TaskController::class,'done']);
+    Route::get('/logout',[LineLoginController::class,'logout'])->name('logout');
+});
 
-Route::get('/main',[TaskController::class,'index']);
-Route::post('/add',[TaskController::class,'create']);
-Route::post('/update',[TaskController::class,'update']);
-Route::post('/delete',[TaskController::class,'delete']);
-Route::post('/done',[TaskController::class,'done']);
-// Route::get('/main',[TaskController::class,'done_task']);
 
-Route::get('/logout',[LineLoginController::class,'logout'])->name('logout');
+
