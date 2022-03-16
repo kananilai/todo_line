@@ -8,22 +8,35 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Carbon\Carbon;
 
+
 class TaskController extends Controller
 {
     public function index()
     {
         $user_id = Auth::id();
         $check = Task::where('user_id',$user_id)->where('status',0)->first();
-        if($check != null){
+        $done_check = Task::where('user_id',$user_id)->where('status',1)->first();
+        if($check != null && $done_check != null){
+            $items = Task::where('user_id',$user_id)->where('status',0)->orderBy('deadline', 'asc')->get();
+            $done_items = Task::where('user_id',$user_id)->where('status',1)->orderBy('deadline', 'asc')->get();
+            $today = new Carbon('tomorrow');
+            return view('main',['items'=>$items,'today'=> $today,'done_items'=>$done_items]);
+        }
+        else if($check == null && $done_check != null){
+            $done_items = Task::where('user_id',$user_id)->where('status',1)->orderBy('deadline', 'asc')->get();
+            return view('main',['done_items'=>$done_items]);
+        }
+        else if($check != null && $done_check == null){
             $items = Task::where('user_id',$user_id)->where('status',0)->orderBy('deadline', 'asc')->get();
             $today = new Carbon('tomorrow');
-            dd($items);
             return view('main',['items'=>$items,'today'=> $today]);
         }
-        else if($check == null){
+        else{
             return view('main');
         }
     }
+
+
 
     public function create(Request $request)
     {

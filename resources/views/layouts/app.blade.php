@@ -15,9 +15,12 @@
     <title>Todo</title>
 </head>
 <body>
-    <div class="header">
-        <h1 class="font">Todo</h1>
-    </div>
+        <div class="header">
+            <h1 class="font">Todo</h1>
+            @auth
+                <a class="font" href="{{ route('logout') }}">Logout</a>
+            @endauth
+        </div>
     <div class="main">
         @yield('content')
     </div>

@@ -67,12 +67,13 @@ class LineMessengerController extends Controller
             }
             else{
                 $limit_date = $input["events"][0]["postback"]["params"]["datetime"];
+                Log::info($limit_date);
                 $time = date('Y-m-d H:i:s',strtotime($limit_date));
                 //LINEのuserid取得
                 $user_line_id = $input["events"][0]["source"]["userId"];
                 $userid = User::where('line_id', $user_line_id)->first();
                 $update = [
-                    'deadline' =>$time,
+                    'deadline' =>$limit_date,
                     'user_id' =>$userid->id,
                 ];
                 Task::where('id',$update_column->id)->update($update);

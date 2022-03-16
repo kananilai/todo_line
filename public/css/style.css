@@ -11,10 +11,9 @@
 }
 
 /* ---------------------- ヘッダー ----------------------*/
-
 .header{
     background-color: #008dd5;
-    text-align: center;
+    display: flex;
     height:80px;
     display: flex;
     justify-content: center;
@@ -23,6 +22,20 @@
 .header h1{
     color:#fff;
     font-size:30px;
+}
+.header a{
+    text-decoration: none;
+    color:#fff;
+    position: absolute;
+    right: 0;
+    font-size:20px;
+    font-weight: bold;
+    margin-right:10px;
+    transition: .3s;
+}
+.header a:hover{
+    color:rgb(181, 181, 181);
+    transition: .3s;
 }
 .main{
     margin:0 auto;
@@ -33,10 +46,9 @@
     display: inline-block;
     text-align: center;
     cursor: pointer;
-    line-height   : 1em;
-    transition    : .3s;
+    line-height: 1em;
+    transition: .3s;
 }
-
 .add{
     background-color: #E43F6F;
 }
@@ -71,20 +83,16 @@
     background-color: rgb(160, 99, 245);
     transition    : .3s;
 }
-
 .delete{
     background-color: rgb(216, 0, 50);
-
 }
 .delete:hover{
     background-color: rgb(220, 100, 114);
     transition    : .3s;
 }
-
 .add_form{
     margin:20px auto;
 }
-
 .task_input{
     font-size: 100%;
 }
@@ -93,7 +101,6 @@ input[type="datetime-local"]:focus {
     outline:none;
     border: solid 2px rgb(32, 191, 85);
 }
-
 .task_table{
     margin-top:60px;
 }
@@ -102,13 +109,28 @@ input[type="datetime-local"]:focus {
 }
 .theader{
     font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 20px;
 }
 .td{
     padding:10px;
 }
 .no_task{
-    margin-top:50px;
+    margin-top:100px;
+    margin-bottom: 200px;
 }
 .no_task p{
     font-size: 20px;
 }
+.done_table .done_title{
+    font-size:20px;
+    padding-bottom: 10px;
+}
+.table_check{
+    padding:5px 0;
+    color:rgb(32, 191, 85);
+    vertical-align: bottom;
+}
+.done_task_td{
+    vertical-align: middle;
+}
+

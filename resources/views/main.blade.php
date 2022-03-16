@@ -37,7 +37,7 @@
             </td>
             <td class="td">
                 @if(($item->deadline) < $today)
-                    <p class="font" style="color:#e12424; ">{{ ($item->deadline) ->format('Y/m/d H:i')}}</p>
+                    <p class="font limit_date" style="color:#e12424; font-weight:">{{ ($item->deadline) ->format('Y/m/d H時i分')}}</p>
                 @else
                 <p class="font">{{ $item->deadline }}</p>
                 @endif
@@ -71,4 +71,24 @@
 </div>
 @endif
 
+@if(!empty($done_items))
+<div class="task_table done_table">
+    <table>
+        <tr>
+            <td colspan="2" class="font done_title">
+                ⭐️ 完了済みタスク ⭐️
+            </td>
+        </tr>
+    @foreach($done_items as $done_item)
+        <tr>
+            <td class="table_check">
+                <i class="fa-solid fa-circle-check fa-2x"></i>
+            <td align="left" class="done_task_td font">
+                {{ $done_item->task }}
+            </td>
+        </tr>
+    @endforeach
+    </table>
+</div>
+@endif
 @endsection('content')

@@ -40,3 +40,6 @@ Route::post('/add',[TaskController::class,'create']);
 Route::post('/update',[TaskController::class,'update']);
 Route::post('/delete',[TaskController::class,'delete']);
 Route::post('/done',[TaskController::class,'done']);
+// Route::get('/main',[TaskController::class,'done_task']);
+
+Route::get('/logout',[LineLoginController::class,'logout'])->name('logout');
