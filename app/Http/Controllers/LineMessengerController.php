@@ -30,31 +30,44 @@ class LineMessengerController extends Controller
         $receive_type = $request['events'][0]['type'];
         //条件分岐
         if($receive_type == "message"){
-            $episode = $input["events"][0]['message']['text'];
-            $userId=$request['events'][0]['source']['userId'];
-            //DB保存
-            Task::create([
-                'line_id' => $userId,
-                'task' => $episode
-            ]);
-            // userIdがあるユーザーを検索
-            $user=User::where('line_id', $userId)->first();
-            // もし見つからない場合は、データベースに保存
-            if($user==NULL) {
-                $profile=$bot->getProfile($userId)->getJSONDecodedBody();
-                $user=new User();
-                $user->provider='line';
-                $user->line_id=$userId;
-                $user->name=$profile['displayName'];
-                $user->save();
+            $message = $input['events'][0]['message']['text'];
+            if($message == "タスク"|| $message == "リスト"|| $message == "一覧"){
+                //LINEのuserid取得
+                $user_line_id = $input["events"][0]["source"]["userId"];
+                $items = Task::where('line_id',$user_line_id)->where('status',0)->get();
+                foreach($items as $item){
+                    $array[] = $item->task;
+                }
+                Log::info($array);
+                $reply_message =  implode("\n", $array);
+                $reply = $bot->replyText($reply_token,$reply_message);
+            }else{
+                $episode = $input["events"][0]['message']['text'];
+                $userId=$request['events'][0]['source']['userId'];
+                //DB保存
+                Task::create([
+                    'line_id' => $userId,
+                    'task' => $episode
+                ]);
+                // userIdがあるユーザーを検索
+                $user=User::where('line_id', $userId)->first();
+                // もし見つからない場合は、データベースに保存
+                if($user==NULL) {
+                    $profile=$bot->getProfile($userId)->getJSONDecodedBody();
+                    $user=new User();
+                    $user->provider='line';
+                    $user->line_id=$userId;
+                    $user->name=$profile['displayName'];
+                    $user->save();
+                }
+                $date_time = new DatetimePickerTemplateActionBuilder('日付を選択', 'storeId=12345', 'datetime');
+                $no_button = new PostbackTemplateActionBuilder('キャンセル', 'button=0');
+                $actions = [$date_time,$no_button];
+                $button = new ButtonTemplateBuilder('期限はいつですか？', $episode, '', $actions);
+                $button_message = new TemplateMessageBuilder('日付選択', $button);
+                //日時指定返す
+                $reply=$bot->replyMessage($reply_token, $button_message);
             }
-            $date_time = new DatetimePickerTemplateActionBuilder('日付を選択', 'storeId=12345', 'datetime');
-            $no_button = new PostbackTemplateActionBuilder('キャンセル', 'button=0');
-            $actions = [$date_time,$no_button];
-            $button = new ButtonTemplateBuilder('期限はいつですか？', $episode, '', $actions);
-            $button_message = new TemplateMessageBuilder('日付選択', $button);
-            //日時指定返す
-            $reply=$bot->replyMessage($reply_token, $button_message);
         }
         if($receive_type == "postback"){
             Log::info($request->all());
