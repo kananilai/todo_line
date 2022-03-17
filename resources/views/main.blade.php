@@ -6,7 +6,7 @@
     <form action="/add" method="POST">
         @csrf
         <input type="text" class="task_add" placeholder="タスクを入力してください" name="task" style="height:30px;" size=30 required>
-        <input type="datetime-local" name="deadline" style="height:30px;" required></input>
+        <input type="datetime-local" name="deadline" style="height:30px;" required class="task_add_date"></input>
         <button type="submit" class="add main_button">
             <i class="fa-solid fa-paper-plane"></i>
         </button>
@@ -43,7 +43,7 @@
                 @endif
             </td>
             <td class="td">
-                <form action="/update" method="post">
+                <form action="/update" method="post" class="task_add_input">
                     @csrf
                     <input type="text" value=" {{ $item->task }}" name="task"  size=30 style="height:30px; font-size:15px;" class="font">
                     <input type="hidden" value="{{ $item->id }}" name="id">

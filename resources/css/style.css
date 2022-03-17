@@ -111,9 +111,7 @@ input[type="datetime-local"]:focus {
     font-family: 'Zen Maru Gothic', sans-serif;
     font-size: 20px;
 }
-.td{
-    padding:10px;
-}
+
 .no_task{
     margin-top:100px;
     margin-bottom: 200px;
@@ -133,4 +131,25 @@ input[type="datetime-local"]:focus {
 .done_task_td{
     vertical-align: middle;
 }
+@media only screen and (min-width:426px){
+    .td{
+        padding:10px;
+    }
+}
 
+@media only screen and (max-width:425px){
+    .task_add,
+    .task_add_date{
+        margin:5px auto;
+        display:block;
+    }
+    .td{
+        margin:4px;
+    }
+    .task_add_input input{
+        width:100px;
+    }
+    .limit_date{
+        margin:0 2px;
+    }
+}
